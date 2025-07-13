@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#712cf9">
+    <title>article</title>
+    <link rel="icon" th:href="@{/dumbbel.ico}" type="image/x-icon"/>
+    <!--版面格式-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!--彈窗-->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+    <style>
+      .limited-width {
+        white-space: nowrap; /* 避免文字換行 */
+        text-overflow: ellipsis; /* 如果超出，使用省略號表示 */
+      }
+    </style>
+
+<body>
+<header class="p-3 text-bg-dark">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between">
+            <div class="d-flex text-end align-items-center justify-content-center">
+                <a th:href="@{/index}" class="nav-link me-2 text-white">首頁</a>
+                <a th:href="@{/article/hot}" class="nav-link px-2 text-white">文章</a>
+                <a th:href="@{/Sport/hot}" class="nav-link px-2 text-white">運動</a>
+                <!--                    <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>-->
+                <!--                    <li><a href="#" class="nav-link px-2 text-white">About</a></li>-->
+            </div>
+            <div class="d-flex text-end align-items-center ms-auto">
+                <button th:if="${userdatas == null}" type="button" class="btn btn-outline-light me-2"
+                        onclick="userLogin()" id="user">登入
+                </button>
+
+                <button th:if="${userdatas == null}" type="button" class="btn btn-warning" onclick="addUser()">
+                    註冊帳號
+                </button>
+
+                <div class="d-flex align-items-center">
+                    <div th:if="${userdatas != null}" th:text="${userdatas.username}"></div>
+                    <div th:if="${userdatas != null}">
+                        <div>
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                               data-toggle="dropdown" aria-expanded="false">
+                                <!-- 下拉菜单的触发内容，如果需要的话 -->
+                            </a>
+                            <ul class="navbar-nav d-flex ms-auto me-2">
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <!-- Dropdown items go here -->
+                                    <a class="dropdown-item"
+                                       th:href="@{/user/UserDataGet(username=${userdatas.username})}">修改帳號資料</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#" onclick="UserSignOut()">登出帳號</a>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form id="addusers" th:action="@{/view/addUser}" method="get"></form>
+            <form id="userup" th:action="@{/view/userlogin}" method="get">
+                <input type="hidden" name="inUrl" id="inUrl" th:value="${Url}"/>
+            </form>
+
+            <form id="userout" th:action="@{/user/signOut}" method="post">
+                <input type="hidden" name="outUrl" id="outUrl" th:value="${Url}"/>
+            </form>
+
+            <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        // 獲取當前頁面的 URL 並設置到隱藏的 input 中
+                        document.getElementById("inUrl").value = window.location.href;
+                        document.getElementById("outUrl").value = window.location.href;
+                    });
+
+                    function userLogin(){
+                        $('#userup').submit();
+                    }
+
+                    function UserSignOut(){
+                        $('#userout').submit();
+                    }
+
+                    function addUser(){
+                        $('#addusers').submit();
+                    }
+            </script>
+        </div>
+    </div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mx-auto">
+            <h3 th:if="${userdatas == null}" th:text="請登入帳號新增文章"></h3>
+            <h3>文章列表</h3>
+            <div class="table-responsive">
+                <table>
+                    <tr>
+                        <td>
+                            <button class="btn btn-info" th:if="${userdatas != null}" id="add" onclick="addArticle()">
+                                發布新文章
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-info" th:if="${userdatas != null}" id="edit" onclick="editArticle()">
+                                修改文章
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-info" th:if="${userdatas != null}" id="del"
+                                    onclick="deleteArticle()">刪除文章
+                            </button>
+                        </td>
+
+                    </tr>
+                </table>
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th class="limited-width">序號</th>
+                        <th class="limited-width">標題</th>
+                        <th class="limited-width">發布時間</th>
+                        <th class="limited-width">修改時間</th>
+<!--                        <th class="limited-width">操作</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="article,loopStats : ${articleList}">
+                        <td><input th:if="${userdatas !=null && userdatas.user_id == article.userId}" type="checkbox"
+                                   th:value="${article.id}"></td>
+                        <td th:text="${loopStats.index+1}"></td>
+                        <td class="ps-0 pe-0">
+                            <button type="button" class="btn btn-link text-start btn-sm ps-0 pe-0"
+                                    th:onclick="'overViews(' + ${article.id} + ')'"
+                                    th:text="${#strings.length(article.title) > 10 ? #strings.substring(article.title, 0, 10) + '...' : article.title}">
+                            </button>
+                        </td>
+                        <td class="limited-width" th:text="${#strings.substring(article.createTime,0,10)}"></td>
+                        <td class="limited-width" th:text="${#strings.substring(article.updateTime,0,10)}"></td>
+<!--                        <td><a th:if="${userdatas !=null && userdatas.user_id == article.userId}"-->
+<!--                               th:href="@{/article/get(id=${article.id})}">修改</a></td>-->
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!-- 分頁 -->
+                <div class="d-flex justify-content-center" th:if="${articleSum !=null}">
+                    <ul class="pagination mx-auto">
+                        <li th:class="${currentPage == 0 ? 'disabled' : ''}" class="page-item">
+                            <a class="page-link" th:href="@{'/article/hot?page=' + ${currentPage - 1}}">上一頁</a>
+                        </li>
+
+                        <li th:each="i : ${#numbers.sequence(0, (articleSum/10))}" class="page-item ">
+                            <a class="page-link" th:href="@{'/article/hot?page='+ ${i}}" th:text="${i + 1}"></a>
+                        </li>
+
+                        <li th:class="${currentPage == (articleSum/10) ? 'disabled' : ''}" class="page-item">
+                            <a class="page-link" th:href="@{'/article/hot?page=' + ${currentPage + 1}}">下一頁</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <form id="frm" th:action="@{/view/addArticle}" method="get">
+                    <input type="hidden" name="userdata.userid" id="userid" value="">
+                </form>
+
+                <form id="delFrm" th:action="@{/article/remove}" method="post">
+                    <input type="hidden" name="ids" id="ids" value="">
+                </form>
+
+                <form id="editFrm" th:action="@{/article/get}" method="post">
+                    <input type="hidden" name="id" id="id" value="">
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+<script type="text/javascript">
+     function addArticle(){
+        $('#frm').submit();
+    }
+    function deleteArticle(){
+        var ids = [];
+        $("input[type='checkbox']:checked").each((index,item) => {
+            ids.push(item.value);
+        })
+        if(ids.length == 0){
+            Swal.fire("請選擇文章");
+            return;
+        }
+        $("#ids").val(ids);
+        $("#delFrm").submit();
+    }
+
+    function editArticle(){
+        var id = [];
+        $("input[type='checkbox']:checked").each((index,item) => {
+            id.push(item.value);
+        })
+        if(id.length == 0){
+            Swal.fire("請選擇文章");
+            return;
+        }else if(id.length != 1){
+            Swal.fire("請單一選擇文章");
+            return;
+        }
+
+        $("#id").val(id);
+        $("#editFrm").submit();
+    }
+
+    function overViews(articleId){
+        $.get("../article/detail/overview", { id:articleId }, (data,status)=>{
+        Swal.fire(data);
+        } )
+    }
+
+
+
+
+
+
+</script>
+<!--版面格式-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<!--彈窗-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+</body>
+</html>

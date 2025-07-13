@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#712cf9">
+    <title>Login</title>
+    <link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon"/>
+    <!--版面格式-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!--彈窗-->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+
+<!--    <style>-->
+<!--        .container {-->
+<!--  display: flex;-->
+<!--  justify-content: space-between; /* 在主軸上均勻分配空間 */-->
+<!--  align-items: center; /* 在交叉軸上居中對齊 */-->
+<!--}-->
+
+<!--.container .item {-->
+<!--  flex: 1; /* 子元素的彈性尺寸，相對於其他兄弟元素 */-->
+<!--}-->
+
+<!--    </style>-->
+</head>
+<body class="text-center " style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center;">
+<main class="form-signin w-70 m-auto" >
+    <form th:action="@{/user/forgetpw}" method="post">
+        <h3 class="h3 mb-3 fw-normal">忘記密碼</h3>
+        <div class="form-floating">
+            <input class="form-control" type="text" id="username" name="username" size="25">
+            <label for="username">輸入你的名稱</label>
+        </div>
+        <div class="form-floating">
+            <input class="form-control" type="text" id="mail" name="mail" size="25">
+            <label for="mail">輸入你的信箱</label>
+        </div>
+        <input type="hidden" th:value="${param.inUrl}" name="inUrl">
+        <hr class="my-4">
+        <button class="w-100 btn btn-lg btn-primary" type="submit">查詢密碼</button>
+    </form>
+    <form id="userup" th:action="@{/view/userlogin}" method="get"></form>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+<script th:inline="javascript" >
+    var pw = /*[[${pw}]]*/;
+    // 回傳密碼
+    if (pw !=null) {
+         Swal.fire({
+            title: '您的密碼',
+            text: pw,
+            didClose: ()=>{
+                $('#userup').submit();
+            }
+        });
+    }
+
+    var forgeterror = /*[[${forgeterror}]]*/;
+    // 检查是否有错误消息
+    if (forgeterror !=null) {
+        Swal.fire({
+            text: forgeterror,
+            icon: 'error'
+        });
+    }
+</script>
+<!--版面格式-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+<!--彈窗-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+</body>
+</html>

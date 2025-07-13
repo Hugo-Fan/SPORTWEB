@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#712cf9">
+    <title>addSport</title>
+    <link rel="icon" th:href="@{/dumbbel.ico}" type="image/x-icon"/>
+
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <style>
+        .limited-width {
+            white-space: nowrap; /* 避免文字換行 */
+            text-overflow: ellipsis; /* 如果超出，使用省略號表示 */
+        }
+
+        .smaller-placeholder::placeholder {
+            font-size: 0.7em; /* 你希望的文本大小 */
+        }
+
+        .fieldGroup {
+            margin-bottom: 10px; /* 調整此值以減小間距 */
+        }
+
+        .fieldGroup .col {
+            margin-bottom: 0; /* 調整此值以減小間距 */
+        }
+    </style>
+
+</head>
+<body class="bg-light" style="min-height: 100vh;">
+<div class="container">
+    <main>
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <h3 class="mb-3 mt-3">紀錄運動</h3>
+                <div class="table-responsive " style="margin-bottom: 1em;">
+                    <table>
+                        <!-- 显示按钮的元素 -->
+                        <td>
+                            <button class="btn btn-success fs-1" onclick="startTimer()">開始計時</button>
+                        </td>
+                        <!-- 显示计时器的元素 -->
+                        <td>
+                            <div class="fs-1" id="timer">00:00</div>
+                        </td>
+                        <!-- 显示 +1 的元素 -->
+                        <td>
+                            <div class="fs-1" id="counter">0組</div>
+                        </td>
+                    </table>
+                </div>
+                <form class="needs-validation" th:action="@{/sport/addSportList}" method="post" onsubmit="sumFields()">
+                    <div class="row">
+                        <div class="col">
+                            <table>
+                                <td><label for="ActionGroup" class="limited-width">動作日:</label></td>
+                                <td><select class="form-select form-select-sm" id="ActionGroup" name="ActionGroup"
+                                            onchange="updateSelectContainer()">
+                                    <option value="未選擇">請選擇</option>
+                                    <option value="三分化(推)">三分化(推)</option>
+                                    <option value="三分化(拉)">三分化(拉)</option>
+                                    <option value="三分化(腿)">三分化(腿)</option>
+                                    <option value="胸">胸</option>
+                                    <option value="背">背</option>
+                                    <option value="腿">腿</option>
+                                    <option value="肩">肩</option>
+                                    <option value="手">手</option>
+                                    <option value="新手(胸">新手(胸</option>
+                                    <option value="新手(背">新手(背</option>
+                                    <option value="新手(肩">新手(肩</option>
+                                    <option value="新手(腿">新手(腿</option>
+                                </select>
+                                </td>
+                            </table>
+                        </div>
+                        <div class="col">
+                            <table>
+                                <td><label for="timeInput" class="limited-width">日期:</label></td>
+                                <td><input class="form-control " type="text" id="timeInput" name="timeInput"></td>
+                            </table>
+                        </div>
+                        <form class="needs-validation" id="myForm" name="myForm">
+                            <div id="fieldsContainer" name="fieldsContainer">
+                                <!-- 初始的一組欄位 -->
+                                <div class="fieldGroup row " name="fieldGroup" id="fieldGroup">
+                                    <div class="col-6">
+                                        <table>
+                                            <td><label class="limited-width ">動　作:</label></td>
+                                            <td>
+                                            <th id="selectContainer" style="display: none;">
+                                                <!-- 初始时隐藏所有输入框和下拉菜单 -->
+                                                <select class="form-select form-select-sm" id="action" name="action">
+                                                    <!-- 默认的空选项 -->
+                                                    <option value=""></option>
+                                                </select>
+                                            </th>
+                                            </td>
+                                        </table>
+                                    </div>
+                                    <div class="col-6">
+                                        <table>
+                                            <td><label class="limited-width ">內容:</label></td>
+                                            <td><input type="text" name="kg" id="Kg"
+                                                       class="form-control form-control-sm  smaller-placeholder" placeholder="重量">
+                                            </td>
+                                            <td><input type="text" name="Reps" id="Reps"
+                                                       class="form-control form-control-sm smaller-placeholder" placeholder="次數">
+                                            </td>
+                                            <td><input type="text" name="S" id="S"
+                                                       class="form-control form-control-sm smaller-placeholder" placeholder="組數">
+                                            </td>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table>
+                                    <tr>
+                                        <td><input type="hidden" value="" name="sumResult" id="sumResultInput"></td>
+
+                                        <td>
+                                            <button class="btn btn-info" type="button" onclick="addFields()">複製欄位
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-info" type="button" onclick="voidField()">新增空白欄位
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-info" type="button" onclick="removeLastField()">
+                                                刪除最後欄位
+                                            </button>
+                                        </td>
+
+
+                                    </tr>
+                                </table>
+                                <hr class="my-4">
+                                <button class="w-100 btn btn-lg btn-primary " type="submit">提交運動內容</button>
+                                <div style="margin-top: 20px;"></div>
+                                <p id="testid"></p>
+                            </div>
+                        </form>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+<script>
+    // 获取当前日期
+    var today = new Date();
+
+    // 将日期格式化为 "YYYY-MM-DD"
+    var formattedDate = today.toISOString().split('T')[0];
+
+    // 设置输入框的默认值
+    document.getElementById("timeInput").value = formattedDate;
+
+    function addFields() {
+        // 複製第一組欄位
+        var originalFields = document.querySelector('.fieldGroup');
+        var clonedFields = originalFields.cloneNode(true);
+
+        // 獲取所有欄位組
+        var fieldGroups = document.querySelectorAll('.fieldGroup');
+        var fieldCount = fieldGroups.length;
+        // 清空複製的欄位的值name+1
+        var inputs = clonedFields.querySelectorAll('input');
+        inputs.forEach(function(input) {
+            input.value = '';
+        });
+
+
+        clonedFields.setAttribute('name', 'fieldGroup' + (fieldCount));
+
+        // 將複製的欄位插入到容器中
+        var container = document.getElementById('fieldsContainer');
+        container.appendChild(clonedFields);
+    }
+
+    function voidField() {
+        // 複製第一組欄位
+        var originalFields = document.querySelector('.fieldGroup');
+        var clonedFields = originalFields.cloneNode(true);
+
+        // 獲取所有欄位組
+        var fieldGroups = document.querySelectorAll('.fieldGroup');
+        var fieldCount = fieldGroups.length;
+
+        // 清空複製的欄位的值name+1
+        var inputs = clonedFields.querySelectorAll('input');
+        inputs.forEach(function(input) {
+            input.value = '';
+        });
+
+        var selects = clonedFields.querySelectorAll('select');
+        selects.forEach(function(select) {
+            var textInput = document.createElement('input');
+            textInput.setAttribute('type', 'text');
+            textInput.setAttribute('name', select.getAttribute('name'));
+            textInput.setAttribute('size', '11');
+            textInput.value = select.value;
+            select.parentNode.replaceChild(textInput, select);
+        });
+
+        var container = document.getElementById('fieldsContainer');
+        container.appendChild(clonedFields);
+    }
+
+
+    function sumFields() {
+        // 取得所有的 fieldGroup 元素
+        var fieldGroups = document.querySelectorAll('.fieldGroup');
+
+        // 初始化一個變數用來存放加總的結果
+        var sumResult = "";
+
+        // 遍歷每個 fieldGroup 元素
+        fieldGroups.forEach(function(fieldGroup,index) {
+            // 取得該 fieldGroup 元素下所有的 input 元素
+            var inputs = fieldGroup.querySelectorAll('input');
+            var selects = fieldGroup.querySelectorAll('select');
+
+            // 遍歷每個 select 元素
+            selects.forEach(function(select) {
+                // 將 select 元素的值加到結果字串中
+                sumResult += select.value + " ";
+                console.log(sumResult);
+            });
+
+            // 遍歷每個 input 元素
+            inputs.forEach(function (input, index) {
+                // 將 input 元素的值加到結果字串中
+                if (input.value.trim() === "") {
+                    input.value = "0";
+                }
+
+
+                if (inputs.length >= 4) {
+                    switch (index) {
+                        case 0:
+                            sumResult += input.value + " ";
+                            break;
+                        case 1:
+                            sumResult += input.value + "kg";
+                            break;
+                        case 2:
+                            sumResult += input.value + "x";
+                            break;
+                        // 如果有其他的 input，可以在这里进行处理
+                        default:
+                            sumResult += input.value; // 如果不是索引为 0 或 1，只加值不加后缀
+                            break;
+                    }
+                } else {
+                    switch (index) {
+                        case 0:
+                            sumResult += input.value + "kg";
+                            break;
+                        case 1:
+                            sumResult += input.value + "x";
+                            break;
+                        // 如果有其他的 input，可以在这里进行处理
+                        default:
+                            sumResult += input.value; // 如果不是索引为 0 或 1，只加值不加后缀
+                            break;
+                    }
+                }
+            });
+
+            // 加上換行，區隔每個 fieldGroup
+            if (index < fieldGroups.length - 1) {
+                sumResult += ",";
+            }
+        });
+
+    // 將加總結果丟回sumResultInput
+    document.getElementById("sumResultInput").value = sumResult;
+    }
+
+    function removeLastField() {
+        // 獲取所有欄位組
+        var fieldGroups = document.querySelectorAll('.fieldGroup');
+
+        // 如果只剩下一組欄位，不做任何操作
+        if (fieldGroups.length <= 1) {
+            return;
+        }
+
+        // 移除最後一組欄位
+        var lastField = fieldGroups[fieldGroups.length - 1];
+        lastField.parentNode.removeChild(lastField);
+    }
+
+     // 初始化动作选项
+    updateSelectContainer();
+
+    function updateSelectContainer() {
+        var myDropdown = document.getElementById("ActionGroup").value;
+        var selectContainer = document.getElementById("selectContainer");
+
+        // 清空下拉框中的选项
+        document.getElementById("action").innerHTML = '';
+
+        // 查詢動作組最新資料
+        if(myDropdown != "未選擇"){
+            $.get("../sport/detail/addSportList", { actionGroup:myDropdown }, (data,status)=>{
+             // 將字符串按逗號分割成數組
+            let dataArray = data.split(',');
+
+            // 創建排版後的字符串
+            let formattedData = "";
+            dataArray.forEach((item, index) => {
+                formattedData += (index + 1) + ". " + item.trim() + "<br>";
+            });
+                $("#testid").html(formattedData);
+            });
+        }
+        // 根据选择值设置相应的下拉菜单选项
+        if (myDropdown == "三分化(推)") {
+            // 三分化推
+            addOptionToSelectContainer("槓鈴握推", "槓鈴握推");
+            addOptionToSelectContainer("槓鈴肩推", "槓鈴肩推");
+            addOptionToSelectContainer("槓鈴前平舉", "槓鈴前平舉");
+            addOptionToSelectContainer("器械夾胸", "器械夾胸");
+            addOptionToSelectContainer("雙槓撐", "雙槓撐");
+            addOptionToSelectContainer("史密斯三頭", "史密斯三頭");
+            addOptionToSelectContainer("滑輪三頭", "滑輪三頭");
+        }else if(myDropdown == "三分化(拉)") {
+            // 三分化拉
+         addOptionToSelectContainer("硬舉", "硬舉");
+         addOptionToSelectContainer("器械高位下拉", "器械高位下拉");
+         addOptionToSelectContainer("V把對握下拉", "V把對握下拉");
+         addOptionToSelectContainer("滑輪坐姿划船", "滑輪坐姿划船");
+         addOptionToSelectContainer("器械坐姿划船", "器械坐姿划船");
+         addOptionToSelectContainer("槓鈴划船", "槓鈴划船");
+         addOptionToSelectContainer("蜘蛛彎舉", "蜘蛛彎舉");
+         addOptionToSelectContainer("垂式彎舉", "垂式彎舉");
+        }else if(myDropdown == "三分化(腿)") {
+            // 三分化腿
+         addOptionToSelectContainer("深蹲", "深蹲");
+         addOptionToSelectContainer("器械腿推", "器械腿推");
+         addOptionToSelectContainer("分腿蹲", "分腿蹲");
+         addOptionToSelectContainer("器械股四頭", "器械股四頭");
+         addOptionToSelectContainer("器械後側", "器械後側");
+         addOptionToSelectContainer("靠牆靜蹲", "靠牆靜蹲");
+        }else if(myDropdown == "胸") {
+            // 胸
+         addOptionToSelectContainer("槓鈴臥推", "槓鈴臥推");
+         addOptionToSelectContainer("槓鈴上胸推", "槓鈴上胸推");
+         addOptionToSelectContainer("器械夾胸推", "器械夾胸推");
+         addOptionToSelectContainer("龍門下胸拉", "龍門下胸拉");
+        }else if(myDropdown == "背") {
+            // 背
+         addOptionToSelectContainer("滑輪下拉", "滑輪下拉");
+         addOptionToSelectContainer("槓鈴划船", "槓鈴划船");
+         addOptionToSelectContainer("啞鈴單手划船", "啞鈴單手划船");
+         addOptionToSelectContainer("器械雙手划船", "器械雙手划船");
+         addOptionToSelectContainer("硬舉", "硬舉");
+        }else if(myDropdown == "腿") {
+            // 腿
+         addOptionToSelectContainer("深蹲", "深蹲");
+         addOptionToSelectContainer("分腿蹲", "分腿蹲");
+         addOptionToSelectContainer("器械股四頭", "器械股四頭");
+         addOptionToSelectContainer("器械後側", "器械後側");
+        }else if(myDropdown == "肩") {
+            // 肩
+         addOptionToSelectContainer("站姿肩推", "站姿肩推 ");
+         addOptionToSelectContainer("器械側飛鳥", "器械側飛鳥");
+         addOptionToSelectContainer("器械肩推", "器械肩推");
+         addOptionToSelectContainer("器械後三角飛鳥", "器械後三角飛鳥");
+        }else if(myDropdown == "手") {
+           // 手
+         addOptionToSelectContainer("雙槓撐", "雙槓撐");
+         addOptionToSelectContainer("滑輪三頭", "滑輪三頭");
+         addOptionToSelectContainer("史密斯三頭", "史密斯三頭");
+         addOptionToSelectContainer("坐姿頭部破壞者", "坐姿頭部破壞者");
+         addOptionToSelectContainer("二頭蜘蛛彎舉", "二頭蜘蛛彎舉");
+         addOptionToSelectContainer("垂式彎舉", "垂式彎舉");
+         addOptionToSelectContainer("倒數暫停彎舉", "倒數暫停彎舉");
+        }else if(myDropdown == "新手(胸") {
+           // 新手菜單
+         addOptionToSelectContainer("啞鈴臥推", "啞鈴臥推");
+         addOptionToSelectContainer("啞鈴上斜臥推", "啞鈴上斜臥推");
+         addOptionToSelectContainer("器械夾胸", "器械夾胸");
+         addOptionToSelectContainer("龍門下胸拉", "龍門下胸拉");
+         addOptionToSelectContainer("W槓彎舉", "W槓彎舉");
+         addOptionToSelectContainer("倒數暫停彎舉", "倒數暫停彎舉");
+         addOptionToSelectContainer("垂式彎舉", "垂式彎舉");
+        }else if(myDropdown == "新手(背") {
+           // 新手菜單
+         addOptionToSelectContainer("滑輪下拉", "滑輪下拉");
+         addOptionToSelectContainer("器械划船", "器械划船");
+         addOptionToSelectContainer("滑輪V把下拉", "滑輪V把下拉");
+         addOptionToSelectContainer("槓鈴划船", "槓鈴划船");
+         addOptionToSelectContainer("硬舉", "硬舉");
+         addOptionToSelectContainer("引體向上", "引體向上");
+        }else if(myDropdown == "新手(肩") {
+           // 新手菜單
+         addOptionToSelectContainer("站姿肩推", "站姿肩推");
+         addOptionToSelectContainer("器械肩推", "器械肩推");
+         addOptionToSelectContainer("器械側飛鳥", "器械側飛鳥");
+         addOptionToSelectContainer("槓鈴前平舉", "槓鈴前平舉");
+         addOptionToSelectContainer("器械後三角", "器械後三角");
+         addOptionToSelectContainer("雙槓撐", "雙槓撐");
+         addOptionToSelectContainer("史密斯三頭", "史密斯三頭");
+         addOptionToSelectContainer("滑輪三頭", "滑輪三頭");
+        }else if(myDropdown == "新手(腿") {
+           // 新手菜單
+         addOptionToSelectContainer("酒杯深蹲", "酒杯深蹲");
+         addOptionToSelectContainer("槓鈴深蹲", "槓鈴深蹲");
+         addOptionToSelectContainer("頸前深蹲", "頸前深蹲");
+         addOptionToSelectContainer("前抱深蹲", "前抱深蹲");
+         addOptionToSelectContainer("器械深蹲", "器械深蹲");
+         addOptionToSelectContainer("器械腿推", "器械腿推");
+         addOptionToSelectContainer("分腿蹲", "分腿蹲");
+         addOptionToSelectContainer("器械股四頭", "器械股四頭");
+         addOptionToSelectContainer("靠牆靜蹲", "靠牆靜蹲");
+         addOptionToSelectContainer("機械後勾", "機械後勾");
+        }
+        // 可以根据需要添加其他条件
+        // 显示下拉菜单
+        document.getElementById("selectContainer").style.display = "block";
+    }
+    function addOptionToSelectContainer(value, text) {
+        // 创建新的选项
+        var option = document.createElement("option");
+        option.value = value;
+        option.text = text;
+
+        // 将选项添加到下拉菜单
+        document.getElementById("action").add(option);
+    }
+
+    // 获取显示计时器的元素
+    var timerElement = document.getElementById('timer');
+
+    // 获取显示 +1 的元素
+    var counterElement = document.getElementById('counter');
+
+    // 计时器的 ID
+    var intervalId;
+
+    // 在页面卸载前清除计时器
+    window.onbeforeunload = function () {
+        clearInterval(intervalId);
+    };
+
+    // 在数字小于 10 时补零
+    function padZero(number) {
+        return number < 10 ? '0' + number : number;
+    }
+
+    // 开始计时的函数
+    function startTimer() {
+        // 如果之前有计时器在运行，先清除
+        clearInterval(intervalId);
+        var seconds =0;
+
+        // 使用 setInterval 每秒更新一次计时器
+        intervalId = setInterval(function () {
+            // 递增秒数
+            seconds++;
+
+            // 计算分钟和秒数
+            var minutes = Math.floor(seconds / 60);
+            var remainingSeconds = seconds % 60;
+
+            // 格式化时间为 mm:ss
+            var formattedTime = padZero(minutes) + ':' + padZero(remainingSeconds);
+
+            // 更新显示计时器的元素内容
+            timerElement.textContent = formattedTime;
+
+
+        }, 1000)
+                    // 递增显示 +1 的元素的内容
+            counterElement.textContent =  parseInt(counterElement.textContent) + 1 + "组";
+    }
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

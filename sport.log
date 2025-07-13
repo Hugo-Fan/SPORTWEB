@@ -1,0 +1,49 @@
+2025-07-13T21:35:37.484+08:00  INFO 25092 --- [main] com.hugo.blog.sportWebApplication        : Starting sportWebApplication using Java 17.0.6 with PID 25092 (F:\code\SportWeb\target\classes started by 仁 in F:\code\SportWeb)
+2025-07-13T21:35:37.489+08:00  INFO 25092 --- [main] com.hugo.blog.sportWebApplication        : No active profile set, falling back to 1 default profile: "default"
+2025-07-13T21:35:38.375+08:00  INFO 25092 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8000 (http)
+2025-07-13T21:35:38.382+08:00  INFO 25092 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-07-13T21:35:38.383+08:00  INFO 25092 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.12]
+2025-07-13T21:35:38.467+08:00  INFO 25092 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/blog]   : Initializing Spring embedded WebApplicationContext
+2025-07-13T21:35:38.467+08:00  INFO 25092 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 939 ms
+2025-07-13T21:35:39.115+08:00  INFO 25092 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8000 (http) with context path '/blog'
+2025-07-13T21:35:39.124+08:00  INFO 25092 --- [main] com.hugo.blog.sportWebApplication        : Started sportWebApplication in 1.963 seconds (process running for 2.23)
+2025-07-13T21:38:25.817+08:00  INFO 25092 --- [http-nio-8000-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/blog]   : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-13T21:38:25.817+08:00  INFO 25092 --- [http-nio-8000-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-07-13T21:38:25.818+08:00  INFO 25092 --- [http-nio-8000-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-07-13T21:39:50.331+08:00  INFO 25092 --- [http-nio-8000-exec-8] c.h.blog.service.impl.UserServiceImpl    : hugofan 執行userLogin.service
+2025-07-13T21:39:50.342+08:00  INFO 25092 --- [http-nio-8000-exec-8] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-07-13T21:39:50.565+08:00  INFO 25092 --- [http-nio-8000-exec-8] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@317e22e7
+2025-07-13T21:39:50.566+08:00  INFO 25092 --- [http-nio-8000-exec-8] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-07-13T21:39:50.601+08:00  INFO 25092 --- [http-nio-8000-exec-8] c.h.blog.service.impl.UserServiceImpl    : hugofan 執行queryByUsername.service
+2025-07-13T21:39:50.605+08:00  INFO 25092 --- [http-nio-8000-exec-8] c.hugo.blog.controller.UserController    : hugofan 帳號登入成功
+2025-07-13T21:39:50.611+08:00  INFO 25092 --- [http-nio-8000-exec-9] c.h.blog.controller.ArticleController    : hugofan執行首頁
+2025-07-13T21:39:53.466+08:00  INFO 25092 --- [http-nio-8000-exec-1] c.h.b.service.impl.ArticleServiceImpl    : 執行articleSum
+2025-07-13T21:39:53.476+08:00  INFO 25092 --- [http-nio-8000-exec-1] c.h.b.service.impl.ArticleServiceImpl    : 執行queryTopArticle
+2025-07-13T21:39:54.940+08:00  INFO 25092 --- [http-nio-8000-exec-2] c.h.blog.service.impl.SportServiceImpl   : 1 執行queryBySportId.service
+2025-07-13T21:39:54.948+08:00  INFO 25092 --- [http-nio-8000-exec-2] c.h.blog.service.impl.SportServiceImpl   : 1 執行querySportList.service
+2025-07-13T21:39:54.952+08:00  INFO 25092 --- [http-nio-8000-exec-2] c.hugo.blog.controller.SportController   : hugofan 執行sport首頁
+2025-07-13T21:39:58.346+08:00  INFO 25092 --- [http-nio-8000-exec-3] c.h.b.service.impl.ArticleServiceImpl    : 執行articleSum
+2025-07-13T21:39:58.349+08:00  INFO 25092 --- [http-nio-8000-exec-3] c.h.b.service.impl.ArticleServiceImpl    : 執行queryTopArticle
+2025-07-13T21:40:01.261+08:00  INFO 25092 --- [http-nio-8000-exec-4] c.h.blog.controller.ArticleController    : hugofan執行首頁
+2025-07-13T21:40:06.255+08:00  INFO 25092 --- [http-nio-8000-exec-5] c.h.blog.service.impl.SportServiceImpl   : 1 執行queryBySportId.service
+2025-07-13T21:40:06.257+08:00  INFO 25092 --- [http-nio-8000-exec-5] c.h.blog.service.impl.SportServiceImpl   : 1 執行querySportList.service
+2025-07-13T21:40:06.259+08:00  INFO 25092 --- [http-nio-8000-exec-5] c.hugo.blog.controller.SportController   : hugofan 執行sport首頁
+2025-07-13T21:40:07.083+08:00  INFO 25092 --- [http-nio-8000-exec-7] c.h.b.service.impl.ArticleServiceImpl    : 執行articleSum
+2025-07-13T21:40:07.086+08:00  INFO 25092 --- [http-nio-8000-exec-7] c.h.b.service.impl.ArticleServiceImpl    : 執行queryTopArticle
+2025-07-13T21:40:09.845+08:00  INFO 25092 --- [http-nio-8000-exec-6] c.h.blog.service.impl.SportServiceImpl   : 1 執行queryBySportId.service
+2025-07-13T21:40:09.847+08:00  INFO 25092 --- [http-nio-8000-exec-6] c.h.blog.service.impl.SportServiceImpl   : 1 執行querySportList.service
+2025-07-13T21:40:09.849+08:00  INFO 25092 --- [http-nio-8000-exec-6] c.hugo.blog.controller.SportController   : hugofan 執行sport首頁
+2025-07-13T21:58:24.178+08:00  INFO 25092 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-07-13T21:58:24.183+08:00  INFO 25092 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-07-13T22:01:46.710+08:00  INFO 22840 --- [main] com.hugo.blog.sportWebApplication        : Starting sportWebApplication using Java 17.0.6 with PID 22840 (F:\code\SportWeb\target\classes started by 仁 in F:\code\SportWeb)
+2025-07-13T22:01:46.712+08:00  INFO 22840 --- [main] com.hugo.blog.sportWebApplication        : No active profile set, falling back to 1 default profile: "default"
+2025-07-13T22:01:47.727+08:00  INFO 22840 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8000 (http)
+2025-07-13T22:01:47.734+08:00  INFO 22840 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-07-13T22:01:47.734+08:00  INFO 22840 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.12]
+2025-07-13T22:01:47.813+08:00  INFO 22840 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/blog]   : Initializing Spring embedded WebApplicationContext
+2025-07-13T22:01:47.813+08:00  INFO 22840 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1061 ms
+2025-07-13T22:01:48.457+08:00  INFO 22840 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8000 (http) with context path '/blog'
+2025-07-13T22:01:48.467+08:00  INFO 22840 --- [main] com.hugo.blog.sportWebApplication        : Started sportWebApplication in 2.086 seconds (process running for 2.375)
+2025-07-13T22:01:52.871+08:00  INFO 22840 --- [http-nio-8000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/blog]   : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-13T22:01:52.871+08:00  INFO 22840 --- [http-nio-8000-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-07-13T22:01:52.872+08:00  INFO 22840 --- [http-nio-8000-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#712cf9">
+    <link rel="icon" th:href="@{/dumbbel.ico}" type="image/x-icon"/>
+    <title>error</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+  <h3>請求錯誤</h3>
+  <h3 th:if="${msg != null}" th:text="${msg}"></h3>
+  </tr>
+</body>
+</html>

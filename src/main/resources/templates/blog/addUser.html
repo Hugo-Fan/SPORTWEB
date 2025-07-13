@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#712cf9">
+    <title>addUser</title>
+    <link rel="icon" th:href="@{/dumbbel.ico}" type="image/x-icon"/>
+
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+</head>
+<body class="bg-light" style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center;">
+<div class="container">
+    <main>
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <h3 class="mb-3">註冊新帳號(*必填資料)</h3>
+                <form class="needs-validation" th:action="@{/user/addUser}" method="post">
+                    <div class="col-sm-6">
+                        <label for="username" class="form-label">*姓名(可以使用中文)</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="xxx">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="password" class="form-label">*密碼</label>
+                        <input type="text" class="form-control" id="password" name="password" placeholder="xxxxxx">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="email" class="form-label">*電子郵件(忘記時密碼使用)</label>
+                        <input type="text" class="form-control" id="email" name="email" placeholder="you@example.com">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="sex" class="form-label">性別</label>
+                        <input type="text" class="form-control" id="sex" name="sex" placeholder="男 or 女">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="age" class="form-label">年齡</label>
+                        <input type="text" class="form-control" id="age" name="age" placeholder="18">
+                    </div>
+                    <hr class="my-4">
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">註冊新帳號</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
