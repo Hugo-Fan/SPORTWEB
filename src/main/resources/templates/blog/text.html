@@ -1,109 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>计数器示例</title>
+    <meta charset="utf-8">
 </head>
-<body>
-<table>
-    <!-- 显示按钮的元素 -->
-    <td>
-        <button id="startStopButton" onclick="toggleTimer()">开始计时</button>
-        <button onclick="nextSet()">下一组</button>
-    </td>
-    <!-- 显示计时器的元素 -->
-    <td>
-        <div id="timer">00:00</div>
-    </td>
-    <!-- 显示 +1 的元素 -->
-    <td><p id="counter">0组</p></td>
-</table>
-<script>
-    // 获取显示计时器的元素
-    var timerElement = document.getElementById('timer');
+<Body>
+<h1>帳號登入</h1>
 
-    // 获取显示 +1 的元素
-    var counterElement = document.getElementById('counter');
+<div>
+    <label for="name">userName</label><br>
+    <input type="text" id ="name" ><br>
+    <label for="pw">userName</label><br>
+    <input type="text" id ="pw" ><br>
+    <p></p>
+    <button>登入</button>
 
-    // 计时器的 ID
-    var intervalId;
-
-    // 记录计时器状态
-    var isTimerRunning = false;
-
-    // 在页面卸载前清除计时器
-    window.onbeforeunload = function () {
-        clearInterval(intervalId);
-    };
-
-    // 在数字小于 10 时补零
-    function padZero(number) {
-        return number < 10 ? '0' + number : number;
-    }
-
-    // 切换计时器状态的函数
-    function toggleTimer() {
-        if (isTimerRunning) {
-            // 如果计时器正在运行，停止计时
-            clearInterval(intervalId);
-            document.getElementById('startStopButton').textContent = "开始计时";
-        } else {
-            // 如果计时器未运行，开始计时
-            startTimer();
-            document.getElementById('startStopButton').textContent = "停止计时";
-        }
-
-        // 切换计时器状态
-        isTimerRunning = !isTimerRunning;
-    }
-
-    // 开始计时的函数
-    function startTimer() {
-        // 如果之前有计时器在运行，先清除
-        clearInterval(intervalId);
-        var seconds = 0;
-
-        // 使用 setInterval 每秒更新一次计时器
-        intervalId = setInterval(function () {
-            // 递增秒数
-            seconds++;
-
-            // 计算分钟和秒数
-            var minutes = Math.floor(seconds / 60);
-            var remainingSeconds = seconds % 60;
-
-            // 格式化时间为 mm:ss
-            var formattedTime = padZero(minutes) + ':' + padZero(remainingSeconds);
-
-            // 更新显示计时器的元素内容
-            timerElement.textContent = formattedTime;
-
-        }, 1000);
-    }
-
-    // 下一组的函数
-    function nextSet() {
-        // 如果计时器正在运行，停止计时
-        if (isTimerRunning) {
-            clearInterval(intervalId);
-            document.getElementById('startStopButton').textContent = "开始计时";
-            isTimerRunning = false;
-        }
-
-        // 递增显示 +1 的元素的内容
-        counterElement.textContent = parseInt(counterElement.textContent) + 1 + "组";
-
-        // 重置计时器显示为 "00:00"
-        timerElement.textContent = "00:00";
-
-        // 开始计时
-        startTimer();
-
-        // 更新开始停止按钮的文本
-        document.getElementById('startStopButton').textContent = "停止计时";
-    }
-</script>
-
-</body>
+    <table>
+        <thead>
+        <tr>
+            <th>列标题1</th>
+            <th>列标题2</th>
+            <th>列标题3</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>行1，列1</td>
+            <td>行1，列2</td>
+            <td>行1，列3</td>
+        </tr>
+        <tr>
+            <td>行2，列1</td>
+            <td>行2，列2</td>
+            <td>行2，列3</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</Body>
 </html>

@@ -40,6 +40,8 @@ public class ArticleController {
         return "/blog/index";
     }
 
+
+
     // 文章首頁
     @GetMapping("/article/hot")
     public String showHotArticle(Model model, HttpSession session,@RequestParam(defaultValue = "0") Integer page) {

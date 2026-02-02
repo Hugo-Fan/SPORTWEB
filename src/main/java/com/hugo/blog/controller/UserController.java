@@ -15,13 +15,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
-@Controller
+//@Controller
+@RestController
 public class UserController {
     private final UserService userService;
 
@@ -156,4 +158,28 @@ public class UserController {
             return "/blog/editUser";
         }
     }
+
+    @PostMapping("/user/login")
+    public Map<String,Object> login(@RequestBody UsersDTO usersDTO, HttpSession session){
+        String userName = usersDTO.getUsername();
+
+        System.out.println(userName);
+
+        String checkName = "702776";
+        Map<String,Object> userMap = new HashMap<>();
+
+
+        if(userName.equals(checkName)){
+            userMap.put("userName","702776");
+            userMap.put("jiraToken","dsadsadsasadklajdaldjsadskladkldsa");
+            userMap.put("success",true);
+            session.setAttribute("userData","702776");
+            System.out.println("登入成功");
+        }else {
+            userMap.put("success",false);
+        }
+
+        return userMap;
+    }
 }
+
