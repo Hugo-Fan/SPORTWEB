@@ -21,14 +21,14 @@ public class GlobalExceptionHandler {
         BindingResult bindingResult = bindException.getBindingResult();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         model.addAttribute("errors",fieldErrors);
-        return "/blog/error/bind";
+        return "blog/error/bind";
 
     }
 
     @ExceptionHandler({IdTypeException.class})
     public String handleIdTypeException(IdTypeException idTypeException,Model model){
         model.addAttribute("msg",idTypeException.getMessage());
-        return "/blog/error/error";
+        return "blog/error/error";
     }
 
 //    @ExceptionHandler({RuntimeException.class})
