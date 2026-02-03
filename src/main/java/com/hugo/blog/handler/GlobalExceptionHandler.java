@@ -16,21 +16,21 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
 //    //處理JSR303
-//    @ExceptionHandler({BindException.class})
-//    public String handlerBindException(BindException bindException, Model model){
-//        BindingResult bindingResult = bindException.getBindingResult();
-//        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-//        model.addAttribute("errors",fieldErrors);
-//        return "/blog/error/bind";
-//
-//    }
-//
-//    @ExceptionHandler({IdTypeException.class})
-//    public String handleIdTypeException(IdTypeException idTypeException,Model model){
-//        model.addAttribute("msg",idTypeException.getMessage());
-//        return "/blog/error/error";
-//    }
-//
+    @ExceptionHandler({BindException.class})
+    public String handlerBindException(BindException bindException, Model model){
+        BindingResult bindingResult = bindException.getBindingResult();
+        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+        model.addAttribute("errors",fieldErrors);
+        return "/blog/error/bind";
+
+    }
+
+    @ExceptionHandler({IdTypeException.class})
+    public String handleIdTypeException(IdTypeException idTypeException,Model model){
+        model.addAttribute("msg",idTypeException.getMessage());
+        return "/blog/error/error";
+    }
+
 //    @ExceptionHandler({RuntimeException.class})
 //    public String handleDefalutException(Exception e,Model model){
 //        model.addAttribute("msg","請稍後重試!");

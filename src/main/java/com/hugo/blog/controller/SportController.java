@@ -13,6 +13,7 @@ import com.hugo.blog.service.SportService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -25,8 +26,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 public class SportController {
-
-    private final SportService sportService;
+    @Autowired
+    private  SportService sportService;
 
     // 運動首頁
     @GetMapping(value = {"/Sport/hot"})
@@ -45,7 +46,7 @@ public class SportController {
             log.info(usersDTO.getUsername()+" 執行sport首頁");
         }
         // 視圖
-        return "/blog/sportList";
+        return "blog/sportList";
 
     }
 
@@ -66,7 +67,7 @@ public class SportController {
             return "redirect:/Sport/hot";
         }else {
             log.info(usersDTO.getUsername()+" 新增運動紀錄失敗");
-            return "/blog/error/error";
+            return "blog/error/error";
         }
     }
 
@@ -87,10 +88,10 @@ public class SportController {
             model.addAttribute("sportlist", sportlistVO);
             // 視圖
             log.info(sport_id+" 運動資料取得成功");
-            return "/blog/editsport";
+            return "blog/editsport";
         } else {
             log.info(sport_id+" 運動資料取得失敗");
-            return "/blog/error/error";
+            return "blog/error/error";
         }
     }
 
@@ -152,7 +153,7 @@ public class SportController {
             return "redirect:/Sport/hot";
         }else {
             log.info("更新運動紀錄失敗");
-            return "/blog/error/error";
+            return "blog/error/error";
         }
     }
 }

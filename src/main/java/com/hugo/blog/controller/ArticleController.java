@@ -12,6 +12,7 @@ import com.hugo.blog.service.ArticleService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -26,8 +27,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 public class ArticleController {
-
-    private final ArticleService articleService;
+    @Autowired
+    private  ArticleService articleService;
 
     // 首頁
     @GetMapping(value = {"/","/index"})
@@ -37,7 +38,7 @@ public class ArticleController {
             model.addAttribute("userdatas",usersDTO);
             log.info(usersDTO.getUsername()+"執行首頁");
         }
-        return "/blog/index";
+        return "blog/index";
     }
 
 
@@ -61,7 +62,7 @@ public class ArticleController {
             model.addAttribute("userdatas",usersDTO);
         }
         // 視圖
-        return "/blog/articleList";
+        return "blog/articleList";
 
     }
 
@@ -88,9 +89,9 @@ public class ArticleController {
             // 添加數據
             model.addAttribute("article", articleVO);
             // 視圖
-            return "/blog/editArticle";
+            return "blog/editArticle";
         } else {
-            return "/blog/error/error";
+            return "blog/error/error";
         }
     }
 

@@ -22,10 +22,11 @@ import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
-//@Controller
-@RestController
+@Controller
+//@RestController
 public class UserController {
-    private final UserService userService;
+    @Autowired
+    private  UserService userService;
 
     @Autowired
     private MailService mailService;
@@ -53,7 +54,7 @@ public class UserController {
         } else {
             model.addAttribute("loginerror","登入錯誤請檢查帳號或密碼");
             log.info(username+" 帳號登入失敗");
-            return "/blog/userLogin";
+            return "blog/userLogin";
         }
     }
 
@@ -77,11 +78,11 @@ public class UserController {
 
             model.addAttribute("pw","密碼已寄信至mail");
             log.info(username+" 查詢密碼成功");
-            return "/blog/forgetpasword";
+            return "blog/forgetpasword";
         } else {
             model.addAttribute("forgeterror","請確認姓名和電子郵件是否輸入正確");
             log.info(username+" 查詢密碼失敗");
-            return "/blog/forgetpasword";
+            return "blog/forgetpasword";
         }
     }
 
@@ -118,7 +119,7 @@ public class UserController {
             return "redirect:/view/userlogin";
         } else {
             log.info(usersDTO.getUsername()+" 帳號新建失敗");
-            return "/blog/error/error";
+            return "blog/error/error";
         }
     }
 
@@ -130,10 +131,10 @@ public class UserController {
             UsersVO usersVO = BeanUtil.copyProperties(UserData,UsersVO.class);
             model.addAttribute("userdata", usersVO);
             log.info(username+" user資料查詢成功");
-            return "/blog/editUser";
+            return "blog/editUser";
         } else {
             log.info(username+" user資料查詢失敗");
-            return "/blog/error/error";
+            return "blog/error/error";
         }
     }
 
@@ -155,31 +156,8 @@ public class UserController {
             return "redirect:/index";
         }else {
             log.info(usersDTO.getUsername()+" user資料更新失敗");
-            return "/blog/editUser";
+            return "blog/editUser";
         }
-    }
-
-    @PostMapping("/user/login")
-    public Map<String,Object> login(@RequestBody UsersDTO usersDTO, HttpSession session){
-        String userName = usersDTO.getUsername();
-
-        System.out.println(userName);
-
-        String checkName = "702776";
-        Map<String,Object> userMap = new HashMap<>();
-
-
-        if(userName.equals(checkName)){
-            userMap.put("userName","702776");
-            userMap.put("jiraToken","dsadsadsasadklajdaldjsadskladkldsa");
-            userMap.put("success",true);
-            session.setAttribute("userData","702776");
-            System.out.println("登入成功");
-        }else {
-            userMap.put("success",false);
-        }
-
-        return userMap;
     }
 }
 
