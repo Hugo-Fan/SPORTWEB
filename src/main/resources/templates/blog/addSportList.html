@@ -101,7 +101,7 @@
                                             </td>
                                         </table>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 exerciseDiv d-none">
                                         <table>
                                             <td><label class="limited-width ">內容:</label></td>
                                             <td><input type="text" name="kg" id="Kg"
@@ -123,11 +123,11 @@
                                         <td><input type="hidden" value="" name="sumResult" id="sumResultInput"></td>
 
                                         <td>
-                                            <button class="btn btn-info" type="button" onclick="addFields()">複製欄位
+                                            <button class="btn btn-info" type="button" onclick="addFields()">添加動作
                                             </button>
                                         </td>
                                         <td>
-                                            <button class="btn btn-info" type="button" onclick="voidField()">新增空白欄位
+                                            <button class="btn btn-info" type="button" onclick="voidField()">新增空白動作
                                             </button>
                                         </td>
                                         <td>
@@ -135,8 +135,6 @@
                                                 刪除最後欄位
                                             </button>
                                         </td>
-
-
                                     </tr>
                                 </table>
                                 <hr class="my-4">
@@ -165,18 +163,18 @@
         // 複製第一組欄位
         var originalFields = document.querySelector('.fieldGroup');
         var clonedFields = originalFields.cloneNode(true);
-
         // 獲取所有欄位組
         var fieldGroups = document.querySelectorAll('.fieldGroup');
         var fieldCount = fieldGroups.length;
-        // 清空複製的欄位的值name+1
-        var inputs = clonedFields.querySelectorAll('input');
-        inputs.forEach(function(input) {
-            input.value = '';
-        });
 
+        // 複製的欄位的值name+1
+<!--        var inputs = clonedFields.querySelectorAll('input');-->
+        var newRowName = 'fieldGroup' + (fieldCount);
+        clonedFields.setAttribute('name', newRowName);
+        clonedFields.setAttribute('id', newRowName);
 
-        clonedFields.setAttribute('name', 'fieldGroup' + (fieldCount));
+        var newExerciseDiv = clonedFields.querySelector('.exerciseDiv');
+        newExerciseDiv.classList.remove('d-none');
 
         // 將複製的欄位插入到容器中
         var container = document.getElementById('fieldsContainer');
@@ -215,7 +213,7 @@
 
     function sumFields() {
         // 取得所有的 fieldGroup 元素
-        var fieldGroups = document.querySelectorAll('.fieldGroup');
+        var fieldGroups = document.querySelectorAll('.fieldGroup:not(:first-child)');
 
         // 初始化一個變數用來存放加總的結果
         var sumResult = "";
@@ -239,7 +237,6 @@
                 if (input.value.trim() === "") {
                     input.value = "0";
                 }
-
 
                 if (inputs.length >= 4) {
                     switch (index) {
